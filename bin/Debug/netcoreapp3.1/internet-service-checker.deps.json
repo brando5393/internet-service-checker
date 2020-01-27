@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "internet-service-checker/1.0.0": {
+        "runtime": {
+          "internet-service-checker.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "internet-service-checker/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
