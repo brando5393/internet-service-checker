@@ -10,9 +10,10 @@ namespace internet_service_checker
         public static void Main(string[] args)
         {
             Console.Title = "Internet Service Checker";
-            
 
-            Console.Write("===Welcome to the Internet Service Checker===");
+
+            //Console.Write("/**/");
+            Console.WriteLine("===Welcome to the Internet Service Checker===");
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("===MENU===");
@@ -48,12 +49,12 @@ namespace internet_service_checker
         public static void checkService()
         {
             var currentDate = DateTime.Now.ToString("ddd M\\-dd\\-yy");
-            var currentTime = DateTime.Now.ToString("hh:mm tt");
+           
             int pingNum = 0;
             string fileName = @"C:\internet-service-log " + currentDate + ".txt";
             string exitMessage = "Press ESC to exit to main menu.";
-            string successMessage = "#PING " + pingNum + ": Status Return = SUCCESSFULL / Time Recorded = [" + currentTime + "]";
-            string failMessage = "#PING " + pingNum + ": Status Return = FAILURE / Time Recorded = [" + currentTime + "]";
+            
+            
             
             // Check if a file with the same name exists if so, delete it
             if (File.Exists(fileName))
@@ -70,14 +71,14 @@ namespace internet_service_checker
                 recorder.WriteLine("===INTERNET SERVICE LOG FOR " + currentDate + "===");
                 recorder.WriteLine("");
                 Ping serviceChecker = new Ping();
-                
+                // create timer to send ping to google every 5 minutes
+                var mainTimer = new System.Timers.Timer();
+                mainTimer.Interval = 300000;
+                mainTimer.Enabled = true;
+                mainTimer.AutoReset = true;
+
                 while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
                 {
-                    // create timer to send ping to google every 5 minutes
-                    var mainTimer = new System.Timers.Timer();
-                    mainTimer.Interval = 300000;
-                    mainTimer.Enabled = true;
-                    //mainTimer.AutoReset = true;
                     mainTimer.Elapsed += onTimedEvent;
                     void onTimedEvent(object source, System.Timers.ElapsedEventArgs elapsedEventArgs)
                     {
@@ -87,21 +88,25 @@ namespace internet_service_checker
                             PingReply reply = serviceChecker.Send("172.217.1.132", 1000);
                             if (reply != null)
                             {
+                                var currentTime = DateTime.Now.ToString("hh:mm tt");
+                                string successMessage = "#PING " + pingNum + ": Status Return = SUCCESSFULL / Time Recorded = [" + currentTime + "]";
                                 pingNum++;
                                 Console.WriteLine(successMessage);
                                 recorder.WriteLine(successMessage);
                                 Console.WriteLine(exitMessage);
-                                mainTimer.AutoReset = true;
-                                mainTimer.Enabled = true;
+                                //mainTimer.Stop();
+                                //mainTimer.Start();
                             }
                             else
                             {
+                                var currentTime = DateTime.Now.ToString("hh:mm tt");
+                                string failMessage = "#PING " + pingNum + ": Status Return = FAILURE / Time Recorded = [" + currentTime + "]";
                                 pingNum++;
                                 Console.WriteLine(failMessage);
                                 recorder.WriteLine(failMessage);
                                 Console.WriteLine(exitMessage);
-                                mainTimer.AutoReset = true;
-                                mainTimer.Enabled = true;
+                                //mainTimer.Stop();
+                                //mainTimer.Start();
                             }
                         }
                         catch
