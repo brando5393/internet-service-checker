@@ -76,10 +76,10 @@ namespace internet_service_checker
                     // create timer to send ping to google every 5 minutes
                     var mainTimer = new System.Timers.Timer();
                     mainTimer.Interval = 300000;
-                    mainTimer.Elapsed += onTimedEvent;
-                    mainTimer.AutoReset = true;
                     mainTimer.Enabled = true;
-                      void onTimedEvent(object source, System.Timers.ElapsedEventArgs elapsedEventArgs)
+                    //mainTimer.AutoReset = true;
+                    mainTimer.Elapsed += onTimedEvent;
+                    void onTimedEvent(object source, System.Timers.ElapsedEventArgs elapsedEventArgs)
                     {
                         try
                         {
@@ -91,6 +91,8 @@ namespace internet_service_checker
                                 Console.WriteLine(successMessage);
                                 recorder.WriteLine(successMessage);
                                 Console.WriteLine(exitMessage);
+                                mainTimer.AutoReset = true;
+                                mainTimer.Enabled = true;
                             }
                             else
                             {
@@ -98,6 +100,8 @@ namespace internet_service_checker
                                 Console.WriteLine(failMessage);
                                 recorder.WriteLine(failMessage);
                                 Console.WriteLine(exitMessage);
+                                mainTimer.AutoReset = true;
+                                mainTimer.Enabled = true;
                             }
                         }
                         catch
