@@ -16,6 +16,12 @@ namespace internet_service_checker
             Console.WriteLine("===Welcome to the Internet Service Checker===");
             Console.WriteLine("");
             Console.WriteLine("");
+            showMenu();
+           
+        }
+        
+        private static void showMenu()
+        {
             Console.WriteLine("===MENU===");
             Console.WriteLine("");
             Console.WriteLine("1. Initialize Checker");
@@ -43,9 +49,27 @@ namespace internet_service_checker
 
                 default:
                     Console.Write("Please enter a valid number.");
-                    break;   
+                    break;
             }
         }
+
+        private static void crateTimer()
+        {
+            // create timer to send ping to google every 5 minutes
+            var mainTimer = new System.Timers.Timer();
+            mainTimer.Interval = 300000;
+            mainTimer.Enabled = true;
+            mainTimer.AutoReset = true;
+            mainTimer.Elapsed += onTimedEvent;
+        }
+        
+        
+        
+        
+        
+        
+        
+        
         public static void checkService()
         {
             var currentDate = DateTime.Now.ToString("ddd M\\-dd\\-yy");
@@ -71,15 +95,11 @@ namespace internet_service_checker
                 recorder.WriteLine("===INTERNET SERVICE LOG FOR " + currentDate + "===");
                 recorder.WriteLine("");
                 Ping serviceChecker = new Ping();
-                // create timer to send ping to google every 5 minutes
-                var mainTimer = new System.Timers.Timer();
-                mainTimer.Interval = 300000;
-                mainTimer.Enabled = true;
-                mainTimer.AutoReset = true;
+                
 
                 while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
                 {
-                    mainTimer.Elapsed += onTimedEvent;
+                    
                     void onTimedEvent(object source, System.Timers.ElapsedEventArgs elapsedEventArgs)
                     {
                         try
