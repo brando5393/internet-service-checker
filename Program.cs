@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.NetworkInformation;
-using System.Net;
+using System.Threading;
 
 namespace internet_service_checker
 {
@@ -97,46 +97,36 @@ namespace internet_service_checker
                 var buffer = new byte[32];
                 var timeout = 1000;
 
-                // Set up a timer to send ping requests every 5 minutes
-                var mainTimer = new System.Timers.Timer();
-                mainTimer.Interval = 300000;
-                mainTimer.Enabled = true;
-                mainTimer.AutoReset = true;
-
                 // Keep sending ping requests until the user chooses to exit
                 while (true)
                 {
-                    // Wait for the timer to elapse before sending another ping request
-                    mainTimer.Elapsed += (sender, e) =>
+                    // Increment the ping attempt number
+                    pingNum++;
+
+                    // Send a ping request to the target IP address
+                    var pingReply = pingSender.Send(targetIpAddress, timeout, buffer, pingOptions);
+
+                    // Write the result of the ping request to the log file
+                    recorder.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
+                    recorder.Flush(); // Flush the buffer to ensure data is written to the file
+
+                    // Display the result of the ping request to the console
+                    Console.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
+
+                    // Check if the user has pressed the ESC key to exit to the main menu
+                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
                     {
-                        // Increment the ping attempt number
-                        pingNum++;
+                        // Display a message indicating that the program is exiting to the main menu
+                        Console.WriteLine();
+                        Console.WriteLine(exitMessage);
+                        Console.WriteLine();
 
-                        // Send a ping request to the target IP address
-                        var pingReply = pingSender.Send(targetIpAddress, timeout, buffer, pingOptions);
+                        // Return to the main menu
+                        Main(new string[] { });
+                    }
 
-                        // Write the result of the ping request to the log file
-                        recorder.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
-
-                        // Display the result of the ping request to the console
-                        Console.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
-
-                        // Check if the user has pressed the ESC key to exit to the main menu
-                        if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
-                        {
-                            // Stop the timer
-                            mainTimer.Stop();
-                            mainTimer.Dispose();
-
-                            // Display a message indicating that the program is exiting to the main menu
-                            Console.WriteLine();
-                            Console.WriteLine(exitMessage);
-                            Console.WriteLine();
-
-                            // Return to the main menu
-                            Main(new string[] { });
-                        }
-                    };
+                    // Wait for 5 minutes before sending the next ping request
+                    Thread.Sleep(300000);
                 }
             }
         }
