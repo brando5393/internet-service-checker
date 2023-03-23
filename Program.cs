@@ -59,7 +59,7 @@ namespace internet_service_checker
             // Initialize a variable to keep track of the number of ping attempts
             int pingNum = 0;
             // Set the file name for the log file
-            string fileName = Path.Combine(userHomeDirectory,"internet-service-log-{currentDate}.txt");
+            string fileName = Path.Combine(userHomeDirectory, $"internet-service-log-{currentDate}.txt");
             // Set a message to display when exiting to the main menu
             string exitMessage = "Press ESC to exit to main menu.";
             // Set the target IP address for the ping requests (Google DNS server)
@@ -104,7 +104,40 @@ namespace internet_service_checker
                 mainTimer.AutoReset = true;
 
                 // Keep sending ping requests until the user chooses to exit
+                while (true)
+                {
+                    // Wait for the timer to elapse before sending another ping request
+                    mainTimer.Elapsed += (sender, e) =>
+                    {
+                        // Increment the ping attempt number
+                        pingNum++;
 
+                        // Send a ping request to the target IP address
+                        var pingReply = pingSender.Send(targetIpAddress, timeout, buffer, pingOptions);
+
+                        // Write the result of the ping request to the log file
+                        recorder.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
+
+                        // Display the result of the ping request to the console
+                        Console.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
+
+                        // Check if the user has pressed the ESC key to exit to the main menu
+                        if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                        {
+                            // Stop the timer
+                            mainTimer.Stop();
+                            mainTimer.Dispose();
+
+                            // Display a message indicating that the program is exiting to the main menu
+                            Console.WriteLine();
+                            Console.WriteLine(exitMessage);
+                            Console.WriteLine();
+
+                            // Return to the main menu
+                            Main(new string[] { });
+                        }
+                    };
+                }
             }
         }
     }
