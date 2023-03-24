@@ -60,8 +60,6 @@ namespace internet_service_checker
             int pingNum = 0;
             // Set the file name for the log file
             string fileName = Path.Combine(userHomeDirectory, $"internet-service-log-{currentDate}.txt");
-            // Set a message to display when exiting to the main menu
-            string exitMessage = "Press ESC to exit to main menu.";
             // Set the target IP address for the ping requests (Google DNS server)
             string targetIpAddress = "8.8.8.8";
 
@@ -97,7 +95,7 @@ namespace internet_service_checker
                 var buffer = new byte[32];
                 var timeout = 1000;
 
-                // Keep sending ping requests until the user chooses to exit
+                // Keep sending ping requests until the program is terminated
                 while (true)
                 {
                     // Increment the ping attempt number
@@ -108,22 +106,10 @@ namespace internet_service_checker
 
                     // Write the result of the ping request to the log file
                     recorder.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
-                    recorder.Flush(); // Flush the buffer to ensure data is written to the file
+                    recorder.Flush();
 
                     // Display the result of the ping request to the console
                     Console.WriteLine($"Ping attempt {pingNum} at {DateTime.Now}: {pingReply.Status}");
-
-                    // Check if the user has pressed the ESC key to exit to the main menu
-                    if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
-                    {
-                        // Display a message indicating that the program is exiting to the main menu
-                        Console.WriteLine();
-                        Console.WriteLine(exitMessage);
-                        Console.WriteLine();
-
-                        // Return to the main menu
-                        Main(new string[] { });
-                    }
 
                     // Wait for 5 minutes before sending the next ping request
                     Thread.Sleep(300000);
