@@ -1,0 +1,15 @@
+C:\Users\brand\Desktop\internet-service-checker\bin\Release\net7.0\internet-service-checker.exe
+C:\Users\brand\Desktop\internet-service-checker\bin\Release\net7.0\internet-service-checker.deps.json
+C:\Users\brand\Desktop\internet-service-checker\bin\Release\net7.0\internet-service-checker.runtimeconfig.json
+C:\Users\brand\Desktop\internet-service-checker\bin\Release\net7.0\internet-service-checker.dll
+C:\Users\brand\Desktop\internet-service-checker\bin\Release\net7.0\internet-service-checker.pdb
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.csproj.AssemblyReference.cache
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.AssemblyInfoInputs.cache
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.AssemblyInfo.cs
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.csproj.CoreCompileInputs.cache
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.dll
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\refint\internet-service-checker.dll
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.pdb
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\internet-service-checker.genruntimeconfig.cache
+C:\Users\brand\Desktop\internet-service-checker\obj\Release\net7.0\ref\internet-service-checker.dll
